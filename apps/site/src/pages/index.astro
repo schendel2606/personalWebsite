@@ -11,7 +11,7 @@ const projects = loadProjects();
 ---
 <BaseLayout>
   <div class="page">
-    <Hero />
+    <div class="hero-sticky"><Hero /></div>
     <main class="content">
       <section id="projects">
         <h2 style="margin-top: 40px;">Projects</h2>
@@ -43,5 +43,15 @@ const projects = loadProjects();
   @media (max-width: 1023px) {
     .page { grid-template-columns: 1fr; }
     .content { max-width: 100%; }
+  }
+  .hero-sticky {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  @media (max-width: 1023px) {
+    .hero-sticky { position: static; height: auto; }
   }
 </style>
