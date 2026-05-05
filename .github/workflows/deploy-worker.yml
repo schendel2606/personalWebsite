@@ -1,0 +1,28 @@
+name: Deploy chat worker
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/chat-worker/**'
+      - 'content/**'
+      - '.github/workflows/deploy-worker.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm test --workspace apps/chat-worker
+      - name: Wrangler deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          workingDirectory: apps/chat-worker
+          command: deploy

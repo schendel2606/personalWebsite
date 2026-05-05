@@ -1,0 +1,60 @@
+---
+import { loadFacts } from '../lib/content';
+const f = loadFacts();
+---
+<aside class="hero" id="hero">
+  <h1 class="hero-name">{f.person.name}</h1>
+  <p class="hero-tagline">{f.positioning.headline}</p>
+  <p class="hero-about">
+    I'm a technical Solutions Engineer with a strong bias toward understanding
+    systems quickly, especially when the environment is messy, legacy, or not
+    well documented.
+  </p>
+  <p class="hero-about">
+    I work across C# / .NET, SQL Server, SAP Business One, Boyum / B1UP, and
+    sandboxed AI agents — usually around the point where business process and
+    engineering reality collide.
+  </p>
+  <p class="hero-about">
+    I can sit with customers, debug production issues, build tools, ship
+    deployments, and still stay nice enough that people usually want me back
+    in the room.
+  </p>
+  <ul class="hero-socials">
+    <li><a href={f.person.socials.linkedin} aria-label="LinkedIn">LinkedIn</a></li>
+    <li><a href={f.person.socials.github} aria-label="GitHub">GitHub</a></li>
+    <li><a href={`mailto:${f.person.email}`} aria-label="Email">{f.person.email}</a></li>
+  </ul>
+</aside>
+
+<style>
+  .hero {
+    padding: var(--space-xl) var(--space-lg);
+    max-width: 320px;
+  }
+  .hero-name {
+    font-family: var(--font-mono);
+    font-size: 28px;
+    margin-bottom: var(--space-xs);
+  }
+  .hero-tagline {
+    color: var(--fg-muted);
+    font-size: 14px;
+    margin-bottom: var(--space-lg);
+  }
+  .hero-about {
+    font-size: 14px;
+    line-height: 1.65;
+    margin-bottom: var(--space-lg);
+  }
+  .hero-socials {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  .hero-socials a {
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+</style>

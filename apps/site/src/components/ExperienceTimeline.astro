@@ -1,0 +1,51 @@
+---
+import { loadFacts } from '../lib/content';
+const f = loadFacts();
+
+function fmtDate(s: string): string {
+  if (s === 'present') return 'Present';
+  const [y, m] = s.split('-');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[parseInt(m, 10) - 1]} ${y}`;
+}
+---
+<section class="experience" id="experience">
+  <h2>Experience</h2>
+  <ol class="timeline">
+    {f.experience.map((e) => (
+      <li class="entry">
+        <header>
+          <h3>{e.role}</h3>
+          <span class="company">{e.company}</span>
+          <span class="dates">{fmtDate(e.start)} — {fmtDate(e.end)}</span>
+        </header>
+        <ul class="bullets">
+          {e.bullets.slice(0, 3).map((b) => <li>{b}</li>)}
+        </ul>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .experience { margin-bottom: var(--space-2xl); }
+  .timeline { list-style: none; }
+  .entry {
+    padding-left: var(--space-md);
+    border-left: 2px solid var(--border);
+    margin-bottom: var(--space-lg);
+  }
+  .entry h3 { margin-bottom: 2px; }
+  .company { color: var(--fg-muted); font-size: 14px; margin-right: var(--space-md); }
+  .dates {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--fg-muted);
+  }
+  .bullets {
+    margin-top: var(--space-sm);
+    padding-left: var(--space-md);
+    font-size: 14px;
+  }
+  .bullets li { margin-bottom: var(--space-xs); }
+</style>

@@ -1,0 +1,26 @@
+.superpowers/
+node_modules/
+.next/
+.vercel/
+.env
+.env.local
+.env.*.local
+dist/
+build/
+*.log
+.DS_Store
+
+# Build outputs
+**/dist/
+**/.wrangler/
+**/.astro/
+output/resumes/
+
+# Local secrets
+**/.dev.vars
+
+# Generated content bundle
+apps/chat-worker/src/content.json
+
+# Site local env
+apps/site/.env
