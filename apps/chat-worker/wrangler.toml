@@ -5,9 +5,12 @@ compatibility_flags = ["nodejs_compat"]
 
 [[kv_namespaces]]
 binding = "RATE_LIMIT_KV"
-id = "PLACEHOLDER_BIND_VIA_WRANGLER_KV_CREATE"
+id = "e65b8d3f0b454cec86a8f2dda0932aa1"
 
-# Routes are added in deploy task. Local dev uses wrangler dev (no route needed).
+# Production route: chat.niv.schendel.me. Local dev uses wrangler dev (no route).
+[[routes]]
+pattern = "chat.niv.schendel.me/*"
+zone_name = "schendel.me"
 
 # Vars (non-secret) — secrets are set via `wrangler secret put`
 [vars]
