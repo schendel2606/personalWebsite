@@ -7,12 +7,29 @@ compatibility_flags = ["nodejs_compat"]
 binding = "RATE_LIMIT_KV"
 id = "e65b8d3f0b454cec86a8f2dda0932aa1"
 
-# Production: bind the Worker to chat.niv.schendel.me as a Cloudflare-managed
-# custom domain. This auto-creates the proxied DNS record and SSL cert on deploy,
-# so we don't need a separate manual DNS entry for the chat subdomain.
+# Production routing.
+#
+# Three hostnames hit this Worker in production:
+#   1. chat.niv.schendel.me  — chat API (custom_domain creates DNS+cert)
+#   2. schendel.me/*         — legacy apex, 301 to canonical (handleApexRedirect)
+#   3. www.schendel.me/*     — legacy www, same redirect
+#
+# Routes 2 and 3 require the matching DNS records in the schendel.me zone to
+# be Proxied (orange cloud) so Cloudflare intercepts them before reaching
+# any origin. They also re-use the existing A/CNAME records, so we use
+# `zone_name` route patterns rather than `custom_domain`.
+
 [[routes]]
 pattern = "chat.niv.schendel.me"
 custom_domain = true
+
+[[routes]]
+pattern = "schendel.me/*"
+zone_name = "schendel.me"
+
+[[routes]]
+pattern = "www.schendel.me/*"
+zone_name = "schendel.me"
 
 # Vars (non-secret) — secrets are set via `wrangler secret put`
 [vars]
