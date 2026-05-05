@@ -136,8 +136,7 @@ export default {
       });
     } catch (e) {
       console.error('Anthropic error', e);
-      const msg = e instanceof Error ? e.message : String(e);
-      return json({ error: 'internal', detail: msg.slice(0, 400) }, 500, { ...cors, ...maybeCookieHeader(setCookieHeader) });
+      return json({ error: 'internal' }, 500, { ...cors, ...maybeCookieHeader(setCookieHeader) });
     }
 
     return json(
