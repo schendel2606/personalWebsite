@@ -2,6 +2,8 @@
 
 One-time steps to bring `niv.schendel.me` and `chat.niv.schendel.me` live.
 
+> **Important — order matters.** Complete steps 1, 2, and 6 (KV namespace + worker secrets + GitHub Actions secret) **before** the first push to `main`. The CI workflows trigger on push and will fail noisily if any of those are missing or if `wrangler.toml` still contains the placeholder KV id. Suggested order: do all 7 setup steps locally on a feature branch, then merge to `main` to trigger the first deploy.
+
 ## 1. Cloudflare KV namespace
 
 ```bash

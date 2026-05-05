@@ -6,6 +6,7 @@ const ENV = {
   ANTHROPIC_API_KEY: 'sk-test',
   SESSION_COOKIE_SECRET: 'a'.repeat(64),
   ALLOWED_ORIGIN: 'https://niv.schendel.me',
+  COOKIE_DOMAIN: 'chat.niv.schendel.me',
   RATE_LIMIT_PER_HOUR: '10',
   MAX_INPUT_CHARS: '500',
   MAX_OUTPUT_TOKENS: '400',

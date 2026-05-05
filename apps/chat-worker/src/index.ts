@@ -18,6 +18,7 @@ export interface Env {
   ANTHROPIC_API_KEY: string;
   SESSION_COOKIE_SECRET: string;
   ALLOWED_ORIGIN: string;
+  COOKIE_DOMAIN: string;
   RATE_LIMIT_PER_HOUR: string;
   MAX_INPUT_CHARS: string;
   MAX_OUTPUT_TOKENS: string;
@@ -73,7 +74,13 @@ export default {
     if (!sessionId) {
       sessionId = newSessionId();
       const newSigned = await signCookie(sessionId, env.SESSION_COOKIE_SECRET);
-      setCookieHeader = `session=${newSigned}; Domain=chat.niv.schendel.me; HttpOnly; Secure; SameSite=Lax; Max-Age=86400; Path=/`;
+      // In local dev (Worker on localhost) the browser drops Secure cookies sent over HTTP
+      // and rejects Domain mismatches, so omit those attributes when COOKIE_DOMAIN is "localhost".
+      const isLocal = env.COOKIE_DOMAIN === 'localhost';
+      const attrs = isLocal
+        ? 'HttpOnly; SameSite=Lax; Max-Age=86400; Path=/'
+        : `Domain=${env.COOKIE_DOMAIN}; HttpOnly; Secure; SameSite=Lax; Max-Age=86400; Path=/`;
+      setCookieHeader = `session=${newSigned}; ${attrs}`;
     }
 
     // Rate limit

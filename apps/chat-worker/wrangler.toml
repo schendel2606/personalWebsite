@@ -12,6 +12,7 @@ id = "PLACEHOLDER_BIND_VIA_WRANGLER_KV_CREATE"
 # Vars (non-secret) — secrets are set via `wrangler secret put`
 [vars]
 ALLOWED_ORIGIN = "https://niv.schendel.me"
+COOKIE_DOMAIN = "chat.niv.schendel.me"
 RATE_LIMIT_PER_HOUR = "10"
 MAX_INPUT_CHARS = "500"
 MAX_OUTPUT_TOKENS = "400"
