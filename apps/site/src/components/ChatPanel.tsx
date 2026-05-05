@@ -65,9 +65,17 @@ export default function ChatPanel() {
   return (
     <section className="chat-panel" aria-label="Chat with Niv's AI">
       <header className="chat-head">
-        <span className="chat-dot" aria-hidden="true" />
-        <h2 className="chat-title">Talk to my AI</h2>
-        <span className="chat-meta">Convince me to interview Niv.</span>
+        <span className="chat-bot" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 8V4H8" />
+            <rect x="4" y="8" width="16" height="12" rx="2" />
+            <path d="M2 14h2" />
+            <path d="M20 14h2" />
+            <path d="M15 13v2" />
+            <path d="M9 13v2" />
+          </svg>
+        </span>
+        <h2 className="chat-title" dir="auto">תנו לסוכן שלי לשכנע אתכם...</h2>
       </header>
 
       <div ref={scrollRef} className="chat-body">
@@ -173,27 +181,31 @@ function ChatStyles() {
       }
       .chat-head {
         display: flex;
-        align-items: baseline;
+        align-items: center;
         gap: var(--space-sm);
         padding: var(--space-md) var(--space-lg);
         border-bottom: 1px solid var(--border);
       }
-      .chat-dot {
-        width: 8px; height: 8px; border-radius: 50%;
-        background: var(--accent);
-        box-shadow: 0 0 12px var(--accent-glow);
-        align-self: center;
+      .chat-bot {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        color: var(--accent);
+        background: rgba(94, 106, 210, 0.1);
+        border: 1px solid rgba(94, 106, 210, 0.3);
+        flex-shrink: 0;
       }
+      .chat-bot svg { width: 18px; height: 18px; }
       .chat-title {
-        font-family: var(--font-mono);
-        font-size: 14px;
-        font-weight: 600;
+        font-family: var(--font-sans);
+        font-size: 15px;
+        font-weight: 500;
         margin: 0;
-      }
-      .chat-meta {
-        color: var(--fg-muted);
-        font-size: 12px;
-        margin-left: auto;
+        unicode-bidi: plaintext;
+        line-height: 1.3;
       }
       .chat-body {
         flex: 1;
