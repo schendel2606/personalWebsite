@@ -4,22 +4,50 @@ interface Props { project: Project; }
 const { project } = Astro.props;
 const visibleStack = project.stack.slice(0, 4);
 const overflow = project.stack.length - visibleStack.length;
+const liveHost = project.links.live ? new URL(project.links.live).host : null;
 ---
 <article class="project-card">
-  <header>
-    <h3 class="project-title">{project.title}</h3>
-    <p class="project-tagline">{project.tagline}</p>
-  </header>
-  <ul class="project-stack" aria-label="Stack">
+  {/* Empty <details> drives an [open] sibling selector below. The card's
+      visible content lives outside <details> so it stays in the natural reading
+      order (title -> tagline -> stack -> body -> actions). */}
+  <details class="card-toggle">
+    <summary class="title-row">
+      <h3 class="title">{project.title}</h3>
+      <span class="chev" aria-hidden="true">▾</span>
+    </summary>
+  </details>
+
+  <p class="tagline">{project.tagline}</p>
+
+  <ul class="stack" aria-label="Stack">
     {visibleStack.map((s) => <li>{s}</li>)}
     {overflow > 0 && <li class="overflow">+{overflow}</li>}
   </ul>
-  <footer class="project-links">
+
+  <div class="body" set:html={project.body} />
+
+  <footer class="actions">
     {project.links.live && (
-      <a href={project.links.live} target="_blank" rel="noopener" aria-label="Live site">live ↗</a>
+      <a
+        class="action primary"
+        href={project.links.live}
+        target="_blank"
+        rel="noopener"
+        aria-label={`Open ${project.title} live site`}
+      >
+        Open {liveHost} ↗
+      </a>
     )}
     {project.links.repo && (
-      <a href={project.links.repo} target="_blank" rel="noopener" aria-label="Repository">code ↗</a>
+      <a
+        class="action secondary"
+        href={project.links.repo}
+        target="_blank"
+        rel="noopener"
+        aria-label={`${project.title} repository`}
+      >
+        Code ↗
+      </a>
     )}
   </footer>
 </article>
@@ -36,24 +64,49 @@ const overflow = project.stack.length - visibleStack.length;
     transition: border-color 120ms ease;
   }
   .project-card:hover { border-color: var(--accent); }
-  .project-title {
+
+  /* Hide the default disclosure marker; we use our own chev. */
+  .card-toggle { margin: 0; }
+  .card-toggle > summary { list-style: none; }
+  .card-toggle > summary::-webkit-details-marker { display: none; }
+
+  .title-row {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    user-select: none;
+  }
+  .title {
     font-family: var(--font-mono);
     font-size: 15px;
-    margin-bottom: 2px;
+    margin: 0;
+    line-height: 1.2;
   }
-  .project-tagline {
+  .chev {
+    color: var(--fg-muted);
+    font-size: 12px;
+    transition: transform 180ms ease;
+    display: inline-block;
+  }
+  .card-toggle[open] .chev { transform: rotate(180deg); color: var(--accent); }
+  .title-row:hover .title { color: var(--accent); }
+
+  .tagline {
     color: var(--fg-muted);
     font-size: 13px;
     line-height: 1.4;
     margin: 0;
   }
-  .project-stack {
+
+  .stack {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
   }
-  .project-stack li {
+  .stack li {
     font-family: var(--font-mono);
     font-size: 10px;
     padding: 2px 7px;
@@ -61,17 +114,56 @@ const overflow = project.stack.length - visibleStack.length;
     border-radius: var(--radius-pill);
     color: var(--fg-muted);
   }
-  .project-stack li.overflow {
+  .stack li.overflow {
     color: var(--accent);
     border-color: rgba(94, 106, 210, 0.4);
   }
-  .project-links {
+
+  /* Body: hidden by default, shown when sibling <details> is open. */
+  .body {
+    display: none;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--fg);
+    padding-top: var(--space-xs);
+    border-top: 1px solid var(--border);
+  }
+  .card-toggle[open] ~ .body { display: block; }
+  .body :global(p) { margin-bottom: var(--space-sm); }
+  .body :global(p:last-child) { margin-bottom: 0; }
+
+  .actions {
     display: flex;
-    gap: var(--space-md);
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+    margin-top: 2px;
+  }
+  .action {
     font-family: var(--font-mono);
     font-size: 11px;
-    margin-top: auto;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: all 120ms ease;
+    line-height: 1.2;
   }
-  .project-links a { color: var(--fg-muted); }
-  .project-links a:hover { color: var(--accent); }
+  .action.primary {
+    background: var(--accent);
+    color: white;
+    border: 1px solid var(--accent);
+    font-weight: 500;
+  }
+  .action.primary:hover {
+    background: rgba(94, 106, 210, 0.85);
+    text-decoration: none;
+  }
+  .action.secondary {
+    color: var(--fg-muted);
+    border: 1px solid var(--border);
+  }
+  .action.secondary:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    text-decoration: none;
+  }
 </style>

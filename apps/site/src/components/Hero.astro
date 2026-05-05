@@ -1,7 +1,15 @@
 ---
-import { loadFacts } from '../lib/content';
+import { loadFacts, computeAge } from '../lib/content';
 import SocialIcons from './SocialIcons.astro';
 const f = loadFacts();
+
+// Build-time meta line below tagline.
+const metaParts: string[] = [];
+if (f.person.birthdate) metaParts.push(`${computeAge(f.person.birthdate)}`);
+if (f.person.location) metaParts.push(f.person.location);
+const cs = f.education.find((e) => /Computer Science/i.test(e.degree));
+if (cs) metaParts.push(`B.Sc. CS at ${cs.school.replace(/\(.*\)/, '').trim()} (in progress)`);
+const meta = metaParts.join(' · ');
 ---
 <header class="hero" id="hero">
   <div class="hero-id">
@@ -9,6 +17,7 @@ const f = loadFacts();
     <div class="hero-text">
       <h1 class="hero-name">{f.person.name}</h1>
       <p class="hero-tagline">{f.positioning.headline}</p>
+      {meta && <p class="hero-meta">{meta}</p>}
     </div>
     <div class="hero-socials">
       <SocialIcons />
@@ -55,6 +64,14 @@ const f = loadFacts();
     color: var(--fg-muted);
     font-size: clamp(13px, 1.4vw, 15px);
     line-height: 1.4;
+    margin-bottom: 2px;
+  }
+  .hero-meta {
+    font-family: var(--font-mono);
+    color: var(--fg-muted);
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    margin: 0;
   }
   .hero-about {
     font-size: 14px;

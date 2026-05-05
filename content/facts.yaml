@@ -3,6 +3,7 @@
 
 person:
   name: Niv Schendel
+  birthdate: 2000-06-26
   email: niv@schendel.me
   phone: "+972-52-555-5579"
   location: Israel
@@ -44,6 +45,13 @@ experience:
     bullets:
       - "Authored T-SQL fixes, stored procedures, and SQL views across dozens of enterprise customer deployments"
       - "Root-caused production data issues, integrated via SAP DI API and Service Layer, ran UAT, shipped to production"
+  - company: IDF Ground Forces, Engineering Branch
+    role: Industrial Operations Engineer
+    start: 2020-06
+    end: 2023-03
+    bullets:
+      - "Applied industrial engineering methods to operational planning and process improvement"
+      - "Built Excel models and authored queries against military operational systems for analysis and reporting"
 
 education:
   - school: Holon Institute of Technology (HIT)

@@ -9,7 +9,9 @@ const CONTENT_ROOT = join(process.cwd(), '..', '..', 'content');
 
 export interface Facts {
   person: {
-    name: string; email: string; phone: string; location: string;
+    name: string;
+    birthdate?: string; // YYYY-MM-DD
+    email: string; phone: string; location: string;
     socials: { linkedin: string; github: string; site: string };
   };
   positioning: {
@@ -47,6 +49,19 @@ export function loadProjects(): Project[] {
   const files = readdirSync(dir).filter((f) => f.endsWith('.md'));
   const projects = files.map((f) => parseProject(join(dir, f)));
   return projects.sort((a, b) => a.order - b.order);
+}
+
+/**
+ * Compute age (in whole years) from a YYYY-MM-DD birthdate string,
+ * relative to `now` (defaults to today). Build-time computation, so the
+ * age refreshes on each site rebuild rather than every visitor request.
+ */
+export function computeAge(birthdate: string, now: Date = new Date()): number {
+  const birth = new Date(birthdate);
+  let age = now.getFullYear() - birth.getFullYear();
+  const m = now.getMonth() - birth.getMonth();
+  if (m < 0 || (m === 0 && now.getDate() < birth.getDate())) age--;
+  return age;
 }
 
 function parseProject(path: string): Project {

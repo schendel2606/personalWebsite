@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import ResumeDownloads from '../components/ResumeDownloads.astro';
+import ExperienceTimeline from '../components/ExperienceTimeline.astro';
 import ChatPanel from '../components/ChatPanel.tsx';
 import { loadProjects } from '../lib/content';
 
@@ -19,12 +20,14 @@ const projects = loadProjects();
 
       <aside class="grid-side">
         <section class="projects">
-          <h2 class="section-title">Projects</h2>
+          <h2 class="section-title">Personal Projects</h2>
           {projects.map((p) => <ProjectCard project={p} />)}
         </section>
         <ResumeDownloads />
       </aside>
     </div>
+
+    <ExperienceTimeline />
   </main>
 </BaseLayout>
 
@@ -36,12 +39,12 @@ const projects = loadProjects();
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    gap: var(--space-xl);
   }
   .grid {
     display: grid;
     grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
     gap: var(--space-xl);
-    flex: 1;
     min-height: 480px;
   }
   .grid-chat { display: flex; }
@@ -71,6 +74,6 @@ const projects = loadProjects();
     .grid-side { order: 2; }
   }
   @media (max-width: 640px) {
-    .page { padding: var(--space-md); }
+    .page { padding: var(--space-md); gap: var(--space-lg); }
   }
 </style>
