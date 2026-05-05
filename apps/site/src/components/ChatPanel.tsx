@@ -75,7 +75,7 @@ export default function ChatPanel() {
             <path d="M9 13v2" />
           </svg>
         </span>
-        <h2 className="chat-title" dir="auto">תנו לסוכן שלי לשכנע אתכם...</h2>
+        <h2 className="chat-title">Let my agent convince you...</h2>
       </header>
 
       <div ref={scrollRef} className="chat-body">
@@ -200,11 +200,10 @@ function ChatStyles() {
       }
       .chat-bot svg { width: 18px; height: 18px; }
       .chat-title {
-        font-family: var(--font-sans);
-        font-size: 15px;
-        font-weight: 500;
+        font-family: var(--font-mono);
+        font-size: 14px;
+        font-weight: 600;
         margin: 0;
-        unicode-bidi: plaintext;
         line-height: 1.3;
       }
       .chat-body {
