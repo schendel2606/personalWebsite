@@ -2,56 +2,75 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import ExperienceTimeline from '../components/ExperienceTimeline.astro';
 import ResumeDownloads from '../components/ResumeDownloads.astro';
-import ChatPill from '../components/ChatPill.tsx';
+import ChatPanel from '../components/ChatPanel.tsx';
 import { loadProjects } from '../lib/content';
 
 const projects = loadProjects();
 ---
 <BaseLayout>
-  <div class="page">
-    <div class="hero-sticky"><Hero /></div>
-    <main class="content">
-      <section id="projects">
-        <h2 style="margin-top: 40px;">Projects</h2>
-        {projects.map((p) => <ProjectCard project={p} />)}
-      </section>
-      <ExperienceTimeline />
-      <ResumeDownloads />
-      <section id="contact" style="margin-bottom: 40px;">
-        <h2>Contact</h2>
-        <p>Email or social links above. Or just talk to my AI bottom-right.</p>
-      </section>
-    </main>
-  </div>
-  <ChatPill client:visible />
+  <main class="page">
+    <Hero />
+
+    <div class="grid">
+      <div class="grid-chat">
+        <ChatPanel client:visible />
+      </div>
+
+      <aside class="grid-side">
+        <section class="projects">
+          <h2 class="section-title">Projects</h2>
+          {projects.map((p) => <ProjectCard project={p} />)}
+        </section>
+        <ResumeDownloads />
+      </aside>
+    </div>
+  </main>
 </BaseLayout>
 
 <style>
   .page {
-    display: grid;
-    grid-template-columns: 320px 1fr;
     max-width: var(--max-width-page);
     margin: 0 auto;
+    padding: var(--space-xl) var(--space-lg);
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
-  .content {
-    padding: var(--space-xl);
-    max-width: var(--max-width-content);
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: var(--space-xl);
+    flex: 1;
+    min-height: 480px;
   }
-  @media (max-width: 1023px) {
-    .page { grid-template-columns: 1fr; }
-    .content { max-width: 100%; }
+  .grid-chat { display: flex; }
+  .grid-side {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+    min-width: 0;
   }
-  .hero-sticky {
-    position: sticky;
-    top: 0;
-    align-self: start;
-    height: 100vh;
-    overflow-y: auto;
+  .projects {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
   }
-  @media (max-width: 1023px) {
-    .hero-sticky { position: static; height: auto; }
+  .section-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--fg-muted);
+    margin: 0 0 4px;
+  }
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+    .grid-chat { order: 1; min-height: 520px; }
+    .grid-side { order: 2; }
+  }
+  @media (max-width: 640px) {
+    .page { padding: var(--space-md); }
   }
 </style>

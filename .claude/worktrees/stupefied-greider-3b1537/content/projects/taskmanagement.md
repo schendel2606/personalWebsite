@@ -24,4 +24,4 @@ I started building my own task system around that gap. The first idea was simple
 
 Then the project became more interesting. Since I already use AI heavily in personal and work projects, I started asking: why should only humans be assignees? The system now supports assigning work to AI agents such as Claude or Codex inside a controlled sandbox. Each agent can work on its own scope, update statuses, and ask for human input when it is blocked.
 
-The most interesting part was learning how much product design changes once agents are treated as real operators in the system (not as a chat window, but as workers with boundaries, responsibilities, and escalation paths).
+The most interesting part was learning how much product design changes once agents are treated as real operators in the system — not as a chat window, but as workers with boundaries, responsibilities, and escalation paths.

@@ -1,60 +1,74 @@
 ---
 import { loadFacts } from '../lib/content';
+import SocialIcons from './SocialIcons.astro';
 const f = loadFacts();
 ---
-<aside class="hero" id="hero">
-  <h1 class="hero-name">{f.person.name}</h1>
-  <p class="hero-tagline">{f.positioning.headline}</p>
+<header class="hero" id="hero">
+  <div class="hero-id">
+    <img src="/niv.png" alt={f.person.name} class="hero-photo" width="96" height="96" />
+    <div class="hero-text">
+      <h1 class="hero-name">{f.person.name}</h1>
+      <p class="hero-tagline">{f.positioning.headline}</p>
+    </div>
+    <div class="hero-socials">
+      <SocialIcons />
+    </div>
+  </div>
   <p class="hero-about">
-    I'm a technical Solutions Engineer with a strong bias toward understanding
-    systems quickly, especially when the environment is messy, legacy, or not
-    well documented.
-  </p>
-  <p class="hero-about">
+    Technical Solutions Engineer with a strong bias toward understanding systems
+    quickly, especially when the environment is messy, legacy, or undocumented.
     I work across C# / .NET, SQL Server, SAP Business One, Boyum / B1UP, and
-    sandboxed AI agents — usually around the point where business process and
-    engineering reality collide.
+    sandboxed AI agents, around the point where business process and
+    engineering reality collide. I sit with customers, debug production, build
+    tools, ship deployments, and stay nice enough that people usually want me
+    back in the room.
   </p>
-  <p class="hero-about">
-    I can sit with customers, debug production issues, build tools, ship
-    deployments, and still stay nice enough that people usually want me back
-    in the room.
-  </p>
-  <ul class="hero-socials">
-    <li><a href={f.person.socials.linkedin} aria-label="LinkedIn">LinkedIn</a></li>
-    <li><a href={f.person.socials.github} aria-label="GitHub">GitHub</a></li>
-    <li><a href={`mailto:${f.person.email}`} aria-label="Email">{f.person.email}</a></li>
-  </ul>
-</aside>
+</header>
 
 <style>
   .hero {
-    padding: var(--space-xl) var(--space-lg);
-    max-width: 320px;
+    margin-bottom: var(--space-xl);
   }
+  .hero-id {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: var(--space-lg);
+    align-items: center;
+    margin-bottom: var(--space-md);
+  }
+  .hero-photo {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--border);
+    background: var(--bg-elev);
+  }
+  .hero-text { min-width: 0; }
   .hero-name {
     font-family: var(--font-mono);
-    font-size: 28px;
-    margin-bottom: var(--space-xs);
+    font-size: clamp(22px, 3vw, 30px);
+    margin-bottom: 2px;
+    line-height: 1.1;
   }
   .hero-tagline {
     color: var(--fg-muted);
-    font-size: 14px;
-    margin-bottom: var(--space-lg);
+    font-size: clamp(13px, 1.4vw, 15px);
+    line-height: 1.4;
   }
   .hero-about {
     font-size: 14px;
     line-height: 1.65;
-    margin-bottom: var(--space-lg);
+    color: var(--fg);
+    max-width: 760px;
   }
-  .hero-socials {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-  }
-  .hero-socials a {
-    font-family: var(--font-mono);
-    font-size: 13px;
+  @media (max-width: 640px) {
+    .hero-id {
+      grid-template-columns: auto 1fr;
+      grid-template-rows: auto auto;
+      gap: var(--space-sm) var(--space-md);
+    }
+    .hero-photo { width: 64px; height: 64px; grid-row: span 2; }
+    .hero-socials { grid-column: 1 / -1; justify-self: start; }
   }
 </style>

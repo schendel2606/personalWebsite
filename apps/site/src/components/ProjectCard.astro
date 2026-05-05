@@ -2,22 +2,24 @@
 import type { Project } from '../lib/content';
 interface Props { project: Project; }
 const { project } = Astro.props;
+const visibleStack = project.stack.slice(0, 4);
+const overflow = project.stack.length - visibleStack.length;
 ---
 <article class="project-card">
   <header>
-    <h2>{project.title}</h2>
-    <p class="tagline">{project.tagline}</p>
+    <h3 class="project-title">{project.title}</h3>
+    <p class="project-tagline">{project.tagline}</p>
   </header>
-  <ul class="stack">
-    {project.stack.map((s) => <li>{s}</li>)}
+  <ul class="project-stack" aria-label="Stack">
+    {visibleStack.map((s) => <li>{s}</li>)}
+    {overflow > 0 && <li class="overflow">+{overflow}</li>}
   </ul>
-  <div class="body" set:html={project.body} />
-  <footer>
-    {project.links.repo && (
-      <a href={project.links.repo} aria-label="Repository">code →</a>
-    )}
+  <footer class="project-links">
     {project.links.live && (
-      <a href={project.links.live} aria-label="Live demo">live ↗</a>
+      <a href={project.links.live} target="_blank" rel="noopener" aria-label="Live site">live ↗</a>
+    )}
+    {project.links.repo && (
+      <a href={project.links.repo} target="_blank" rel="noopener" aria-label="Repository">code ↗</a>
     )}
   </footer>
 </article>
@@ -27,31 +29,49 @@ const { project } = Astro.props;
     background: var(--bg-elev);
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
-    padding: var(--space-lg);
-    margin-bottom: var(--space-lg);
+    padding: var(--space-md) var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    transition: border-color 120ms ease;
   }
-  .project-card h2 { margin-bottom: var(--space-xs); }
-  .tagline { color: var(--fg-muted); font-size: 13px; margin-bottom: var(--space-md); }
-  .stack {
+  .project-card:hover { border-color: var(--accent); }
+  .project-title {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+  .project-tagline {
+    color: var(--fg-muted);
+    font-size: 13px;
+    line-height: 1.4;
+    margin: 0;
+  }
+  .project-stack {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-xs);
-    margin-bottom: var(--space-md);
+    gap: 4px;
   }
-  .stack li {
+  .project-stack li {
     font-family: var(--font-mono);
-    font-size: 11px;
-    padding: 2px 8px;
+    font-size: 10px;
+    padding: 2px 7px;
     border: 1px solid var(--border);
     border-radius: var(--radius-pill);
     color: var(--fg-muted);
   }
-  .body { font-size: 14px; line-height: 1.65; margin-bottom: var(--space-md); }
-  footer {
+  .project-stack li.overflow {
+    color: var(--accent);
+    border-color: rgba(94, 106, 210, 0.4);
+  }
+  .project-links {
     display: flex;
     gap: var(--space-md);
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: 11px;
+    margin-top: auto;
   }
+  .project-links a { color: var(--fg-muted); }
+  .project-links a:hover { color: var(--accent); }
 </style>
