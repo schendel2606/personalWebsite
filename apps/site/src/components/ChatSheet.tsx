@@ -63,10 +63,16 @@ export default function ChatSheet({ workerUrl, onClose }: Props) {
     const minutes = Math.ceil(rateLimited.retryAfterSeconds / 60);
     return (
       <Sheet onClose={onClose}>
-        <h3 style={{ fontFamily: 'var(--font-mono)', marginBottom: 16 }}>That was a good chat.</h3>
-        <p style={{ marginBottom: 16, fontSize: 14 }}>
-          We've talked enough for now (resets in {minutes} minute{minutes === 1 ? '' : 's'}).
-          If you'd like to keep going, the conversation is better continued at one of these:
+        <h3 style={{ fontFamily: 'var(--font-mono)', marginBottom: 16 }}>You've reached the hourly limit.</h3>
+        <p style={{ marginBottom: 12, fontSize: 14, lineHeight: 1.6 }}>
+          Which probably means we talked enough for now
+          {minutes > 0 ? <> (resets in {minutes} minute{minutes === 1 ? '' : 's'})</> : null}.
+        </p>
+        <p style={{ marginBottom: 12, fontSize: 14, lineHeight: 1.6 }}>
+          If you still have questions, the better version of this conversation is with the actual Niv. You can reach him by email or LinkedIn.
+        </p>
+        <p style={{ marginBottom: 16, fontSize: 14, lineHeight: 1.6, color: 'var(--fg-muted)' }}>
+          He'll be more flexible than the rate limiter. Probably also slightly more caffeinated.
         </p>
         <div style={{ display: 'flex', gap: 12 }}>
           <a href={`mailto:${rateLimited.fallbackContacts.email}?subject=Following%20up%20from%20your%20site`}
