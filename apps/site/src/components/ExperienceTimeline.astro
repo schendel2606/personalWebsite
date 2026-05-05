@@ -4,7 +4,6 @@ const f = loadFacts();
 
 function fmt(s: string): string {
   if (s === 'present') return 'Present';
-  // Already a year-only entry like "2027"
   if (/^\d{4}$/.test(s)) return s;
   const [y, m] = s.split('-');
   const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -17,43 +16,75 @@ const edu = f.education;
 <section class="career" id="career">
   <h2 class="section-title">Experience</h2>
   <ol class="timeline">
-    {work.map((e) => (
-      <li class="entry">
-        <div class="entry-head">
-          <span class="entry-dates">{fmt(e.start)} - {fmt(e.end)}</span>
-          <h3 class="entry-role">{e.role}</h3>
-          <span class="entry-place">{e.company}</span>
-        </div>
-        {e.bullets.length > 0 && (
-          <ul class="entry-bullets">
-            {e.bullets.slice(0, 2).map((b) => <li>{b}</li>)}
-          </ul>
-        )}
-      </li>
-    ))}
+    {work.map((e) => {
+      const expandable = e.bullets.length > 0;
+      return (
+        <li class="entry">
+          {expandable ? (
+            <details class="entry-toggle">
+              <summary class="entry-head">
+                <span class="entry-dates">{fmt(e.start)} - {fmt(e.end)}</span>
+                <span class="entry-role-row">
+                  <h3 class="entry-role">{e.role}</h3>
+                  <span class="chev" aria-hidden="true">▾</span>
+                </span>
+                <span class="entry-place">{e.company}</span>
+              </summary>
+            </details>
+          ) : (
+            <div class="entry-head">
+              <span class="entry-dates">{fmt(e.start)} - {fmt(e.end)}</span>
+              <span class="entry-role-row">
+                <h3 class="entry-role">{e.role}</h3>
+              </span>
+              <span class="entry-place">{e.company}</span>
+            </div>
+          )}
+          {expandable && (
+            <ul class="entry-bullets">
+              {e.bullets.map((b) => <li>{b}</li>)}
+            </ul>
+          )}
+        </li>
+      );
+    })}
   </ol>
 
   <h2 class="section-title" style="margin-top: var(--space-xl)">Education</h2>
   <ol class="timeline timeline-edu">
-    {edu.map((e) => (
-      <li class="entry">
-        <div class="entry-head">
-          <span class="entry-dates">{fmt(e.start)} - {fmt(e.end)}</span>
-          <h3 class="entry-role">{e.degree}</h3>
-          <span class="entry-place">{e.school}</span>
-        </div>
-        {e.notes && <p class="entry-notes">{e.notes}</p>}
-      </li>
-    ))}
+    {edu.map((e) => {
+      const expandable = !!e.notes;
+      return (
+        <li class="entry">
+          {expandable ? (
+            <details class="entry-toggle">
+              <summary class="entry-head">
+                <span class="entry-dates">{fmt(e.start)} - {fmt(e.end)}</span>
+                <span class="entry-role-row">
+                  <h3 class="entry-role">{e.degree}</h3>
+                  <span class="chev" aria-hidden="true">▾</span>
+                </span>
+                <span class="entry-place">{e.school}</span>
+              </summary>
+            </details>
+          ) : (
+            <div class="entry-head">
+              <span class="entry-dates">{fmt(e.start)} - {fmt(e.end)}</span>
+              <span class="entry-role-row">
+                <h3 class="entry-role">{e.degree}</h3>
+              </span>
+              <span class="entry-place">{e.school}</span>
+            </div>
+          )}
+          {e.notes && <p class="entry-notes">{e.notes}</p>}
+        </li>
+      );
+    })}
   </ol>
 </section>
 
 <style>
-  .career {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-  }
+  .career { display: flex; flex-direction: column; gap: var(--space-sm); }
   .section-title {
     font-family: var(--font-mono);
     font-size: 11px;
@@ -71,9 +102,7 @@ const edu = f.education;
     padding-left: var(--space-md);
     border-left: 1px solid var(--border);
   }
-  .entry {
-    position: relative;
-  }
+  .entry { position: relative; }
   .entry::before {
     content: "";
     position: absolute;
@@ -85,6 +114,12 @@ const edu = f.education;
     background: var(--accent);
     box-shadow: 0 0 8px var(--accent-glow);
   }
+
+  /* Hide native <details> marker. */
+  .entry-toggle { margin: 0; }
+  .entry-toggle > summary { list-style: none; cursor: pointer; user-select: none; }
+  .entry-toggle > summary::-webkit-details-marker { display: none; }
+
   .entry-head {
     display: grid;
     grid-template-columns: 160px 1fr;
@@ -98,6 +133,11 @@ const edu = f.education;
     letter-spacing: 0.02em;
     grid-row: 1 / span 2;
   }
+  .entry-role-row {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--space-sm);
+  }
   .entry-role {
     font-family: var(--font-mono);
     font-size: 14px;
@@ -105,25 +145,43 @@ const edu = f.education;
     margin: 0;
     line-height: 1.3;
   }
+  .chev {
+    color: var(--fg-muted);
+    font-size: 11px;
+    transition: transform 180ms ease, color 180ms ease;
+    display: inline-block;
+  }
+  .entry-toggle[open] .chev { transform: rotate(180deg); color: var(--accent); }
+  .entry-toggle:not([open]) > summary:hover .entry-role { color: var(--accent); }
+  .entry-toggle:not([open]) > summary:hover .chev { color: var(--accent); }
+
   .entry-place {
     font-size: 13px;
     color: var(--fg-muted);
     line-height: 1.3;
   }
-  .entry-bullets {
-    margin: var(--space-xs) 0 0 200px;
+
+  /* Bullets and notes hidden until details opens. */
+  .entry-bullets, .entry-notes {
+    display: none;
+    margin: var(--space-xs) 0 0 calc(160px + var(--space-md));
     padding-left: var(--space-md);
+  }
+  .entry-bullets {
     font-size: 13px;
     color: var(--fg);
     line-height: 1.55;
   }
-  .entry-bullets li { margin-bottom: 2px; }
+  .entry-bullets li { margin-bottom: 4px; }
   .entry-notes {
-    margin: var(--space-xs) 0 0 200px;
     font-size: 12px;
     color: var(--fg-muted);
     line-height: 1.5;
+    padding-left: 0;
   }
+  .entry-toggle[open] ~ .entry-bullets,
+  .entry-toggle[open] ~ .entry-notes { display: block; }
+
   @media (max-width: 640px) {
     .entry-head {
       grid-template-columns: 1fr;
