@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import './tokens.css';
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+  scroll-padding-bottom: 80px;  /* never let chat pill obscure scrolled-to content */
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+h1, h2, h3 { font-family: var(--font-mono); font-weight: 600; letter-spacing: -0.01em; }
+h1 { font-size: 32px; line-height: 1.2; }
+h2 { font-size: 20px; line-height: 1.3; margin-bottom: var(--space-md); }
+h3 { font-size: 16px; line-height: 1.4; }
+
+p { margin-bottom: var(--space-md); }
+p:last-child { margin-bottom: 0; }
