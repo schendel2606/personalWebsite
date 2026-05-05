@@ -14,6 +14,12 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
+import yaml
+
+FACTS_PATH = Path(__file__).parent.parent.parent / "content" / "facts.yaml"
+with FACTS_PATH.open(encoding="utf-8") as f:
+    FACTS = yaml.safe_load(f)
+
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import inch
@@ -29,14 +35,23 @@ GREY_DARK = HexColor("#2E2E2E")
 GREY_MID = HexColor("#6A6A6A")
 GREY_LINE = HexColor("#B5B5B5")
 
+_p = FACTS["person"]
+_linkedin_url = _p["socials"]["linkedin"]
+_github_url = _p["socials"]["github"]
+_site_url = _p["socials"]["site"]
+# Strip scheme for display text (https://foo.bar -> foo.bar)
+_linkedin_display = _linkedin_url.replace("https://", "").replace("http://", "")
+_github_display = _github_url.replace("https://", "").replace("http://", "")
+_site_display = _site_url.replace("https://", "").replace("http://", "")
+
 CONTACT_LINE = (
-    '<a href="mailto:niv@schendel.me" color="#2E2E2E">niv@schendel.me</a>'
-    '  &nbsp;•&nbsp;  +972-52-555-5579'
-    '  &nbsp;•&nbsp;  <a href="https://linkedin.com/in/niv-schendel" '
-    'color="#2E2E2E">linkedin.com/in/niv-schendel</a>'
-    '  &nbsp;•&nbsp;  <a href="https://github.com/schendel2606" '
-    'color="#2E2E2E">github.com/schendel2606</a>'
-    '  &nbsp;•&nbsp;  <a href="https://schendel.me" color="#2E2E2E">schendel.me</a>'
+    f'<a href="mailto:{_p["email"]}" color="#2E2E2E">{_p["email"]}</a>'
+    f'  &nbsp;•&nbsp;  {_p["phone"]}'
+    f'  &nbsp;•&nbsp;  <a href="{_linkedin_url}" '
+    f'color="#2E2E2E">{_linkedin_display}</a>'
+    f'  &nbsp;•&nbsp;  <a href="{_github_url}" '
+    f'color="#2E2E2E">{_github_display}</a>'
+    f'  &nbsp;•&nbsp;  <a href="{_site_url}" color="#2E2E2E">{_site_display}</a>'
 )
 
 
@@ -74,7 +89,7 @@ def render(config: dict, output_path: str) -> None:
 
     flow: list = []
 
-    flow.append(Paragraph("NIV SCHENDEL, 25", s_name))
+    flow.append(Paragraph(f"{FACTS['person']['name'].upper()}, 25", s_name))
     flow.append(Paragraph(config["headline"], s_title))
     flow.append(Paragraph(CONTACT_LINE, s_contact))
     flow.append(HRFlowable(width="100%", thickness=0.6, color=GREY_LINE,
