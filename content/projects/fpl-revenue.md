@@ -14,6 +14,7 @@ stack:
   - BCrypt
 links:
   repo: https://github.com/schendel2606/fpl-revenue
+  live: https://fpl.schendel.me
 order: 2
 ---
 
