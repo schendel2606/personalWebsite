@@ -1,10 +1,10 @@
 import { readFileSync, readdirSync } from 'node:fs';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
 import yaml from 'js-yaml';
 
-const HERE = dirname(fileURLToPath(import.meta.url));
-const CONTENT_ROOT = join(HERE, '..', '..', '..', '..', 'content');
+// process.cwd() is the apps/site package root (where npm run build/test runs).
+// The monorepo content/ directory is two levels up from apps/site/.
+const CONTENT_ROOT = join(process.cwd(), '..', '..', 'content');
 
 export interface Facts {
   person: {

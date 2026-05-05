@@ -1,9 +1,47 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import ExperienceTimeline from '../components/ExperienceTimeline.astro';
+import ResumeDownloads from '../components/ResumeDownloads.astro';
+import ChatPill from '../components/ChatPill.tsx';
+import { loadProjects } from '../lib/content';
+
+const projects = loadProjects();
 ---
 <BaseLayout>
-  <main style="padding: 40px;">
-    <h1>Niv Schendel</h1>
-    <p>(scaffold — components coming in phase 3)</p>
-  </main>
+  <div class="page">
+    <Hero />
+    <main class="content">
+      <section id="projects">
+        <h2 style="margin-top: 40px;">Projects</h2>
+        {projects.map((p) => <ProjectCard project={p} />)}
+      </section>
+      <ExperienceTimeline />
+      <ResumeDownloads />
+      <section id="contact" style="margin-bottom: 40px;">
+        <h2>Contact</h2>
+        <p>Email or social links above. Or just talk to my AI bottom-right.</p>
+      </section>
+    </main>
+  </div>
+  <ChatPill client:visible />
 </BaseLayout>
+
+<style>
+  .page {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    max-width: var(--max-width-page);
+    margin: 0 auto;
+    min-height: 100vh;
+  }
+  .content {
+    padding: var(--space-xl);
+    max-width: var(--max-width-content);
+  }
+  @media (max-width: 1023px) {
+    .page { grid-template-columns: 1fr; }
+    .content { max-width: 100%; }
+  }
+</style>
