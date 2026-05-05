@@ -4,6 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "prebuild": "node scripts/build-content.mjs",
+    "predev": "node scripts/build-content.mjs",
+    "pretest": "node scripts/build-content.mjs",
+    "predeploy": "node scripts/build-content.mjs",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "test": "vitest run",
