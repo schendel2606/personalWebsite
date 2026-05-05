@@ -7,10 +7,12 @@ compatibility_flags = ["nodejs_compat"]
 binding = "RATE_LIMIT_KV"
 id = "e65b8d3f0b454cec86a8f2dda0932aa1"
 
-# Production route: chat.niv.schendel.me. Local dev uses wrangler dev (no route).
+# Production: bind the Worker to chat.niv.schendel.me as a Cloudflare-managed
+# custom domain. This auto-creates the proxied DNS record and SSL cert on deploy,
+# so we don't need a separate manual DNS entry for the chat subdomain.
 [[routes]]
-pattern = "chat.niv.schendel.me/*"
-zone_name = "schendel.me"
+pattern = "chat.niv.schendel.me"
+custom_domain = true
 
 # Vars (non-secret) — secrets are set via `wrangler secret put`
 [vars]
