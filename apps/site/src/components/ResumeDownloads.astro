@@ -1,0 +1,38 @@
+---
+import { loadFacts } from '../lib/content';
+const f = loadFacts();
+---
+<section class="resume" id="resume">
+  <h2>Resume</h2>
+  <p class="intro">Pick the variant that fits your role.</p>
+  <ul class="variants">
+    {f.positioning.variants.map((v) => (
+      <li>
+        <a href={`/resumes/${encodeURI(v.file)}`} download>
+          <span class="label">{v.label}</span>
+          <span class="hint">PDF →</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .resume { margin-bottom: var(--space-2xl); }
+  .intro { color: var(--fg-muted); font-size: 14px; margin-bottom: var(--space-lg); }
+  .variants { list-style: none; display: flex; flex-direction: column; gap: var(--space-sm); }
+  .variants a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-md);
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: var(--fg);
+  }
+  .variants a:hover { border-color: var(--accent); }
+  .label { font-weight: 500; }
+  .hint { font-family: var(--font-mono); font-size: 12px; color: var(--fg-muted); }
+</style>
