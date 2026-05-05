@@ -3,6 +3,12 @@ main = "src/index.ts"
 compatibility_date = "2026-04-01"
 compatibility_flags = ["nodejs_compat"]
 
+# Pinning the account so wrangler skips the /memberships lookup on deploy.
+# Without this, the deploy step needs the User -> User Details -> Read
+# permission on the API token; with it, the existing scoped permissions
+# (Workers Scripts/KV/Routes Edit, Account Settings Read) are sufficient.
+account_id = "994471b4b138e87233fe9b72df6fad65"
+
 [[kv_namespaces]]
 binding = "RATE_LIMIT_KV"
 id = "e65b8d3f0b454cec86a8f2dda0932aa1"
