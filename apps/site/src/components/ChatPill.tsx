@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import ChatSheet from './ChatSheet';
+
+const WORKER_URL = import.meta.env.PUBLIC_CHAT_WORKER_URL ?? 'https://chat.niv.schendel.me/';
 
 export default function ChatPill() {
   const [open, setOpen] = useState(false);
@@ -6,17 +9,13 @@ export default function ChatPill() {
     <>
       <button
         className="chat-pill"
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => setOpen(true)}
         aria-label="Open chat"
+        style={{ display: open ? 'none' : 'block' }}
       >
         ▸ Skeptical? Talk to my AI
       </button>
-      {open && (
-        <div className="chat-stub" role="dialog">
-          Chat coming online soon.
-          <button onClick={() => setOpen(false)} aria-label="Close">×</button>
-        </div>
-      )}
+      {open && <ChatSheet workerUrl={WORKER_URL} onClose={() => setOpen(false)} />}
       <style>{`
         .chat-pill {
           position: fixed;
@@ -33,24 +32,6 @@ export default function ChatPill() {
           cursor: pointer;
           box-shadow: 0 0 32px var(--accent-glow);
           z-index: 100;
-        }
-        .chat-stub {
-          position: fixed;
-          bottom: 80px;
-          right: 24px;
-          background: var(--bg-elev);
-          border: 1px solid var(--border);
-          border-radius: var(--radius-md);
-          padding: var(--space-md);
-          color: var(--fg);
-          z-index: 100;
-        }
-        .chat-stub button {
-          margin-left: var(--space-md);
-          background: none;
-          border: none;
-          color: var(--fg-muted);
-          cursor: pointer;
         }
       `}</style>
     </>

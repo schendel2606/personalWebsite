@@ -21,3 +21,6 @@ output/resumes/
 
 # Generated content bundle
 apps/chat-worker/src/content.json
+
+# Site local env
+apps/site/.env
