@@ -16,7 +16,7 @@ id = "e65b8d3f0b454cec86a8f2dda0932aa1"
 # Production routing.
 #
 # Three hostnames hit this Worker in production:
-#   1. chat.niv.schendel.me  — chat API (custom_domain creates DNS+cert)
+#   1. chat.schendel.me  — chat API (custom_domain creates DNS+cert)
 #   2. schendel.me/*         — legacy apex, 301 to canonical (handleApexRedirect)
 #   3. www.schendel.me/*     — legacy www, same redirect
 #
@@ -26,7 +26,7 @@ id = "e65b8d3f0b454cec86a8f2dda0932aa1"
 # `zone_name` route patterns rather than `custom_domain`.
 
 [[routes]]
-pattern = "chat.niv.schendel.me"
+pattern = "chat.schendel.me"
 custom_domain = true
 
 [[routes]]
@@ -40,7 +40,7 @@ zone_name = "schendel.me"
 # Vars (non-secret) — secrets are set via `wrangler secret put`
 [vars]
 ALLOWED_ORIGIN = "https://niv.schendel.me"
-COOKIE_DOMAIN = "chat.niv.schendel.me"
+COOKIE_DOMAIN = "chat.schendel.me"
 RATE_LIMIT_PER_HOUR = "10"
 MAX_INPUT_CHARS = "500"
 MAX_OUTPUT_TOKENS = "400"

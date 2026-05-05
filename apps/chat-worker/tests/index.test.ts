@@ -6,7 +6,7 @@ const ENV = {
   ANTHROPIC_API_KEY: 'sk-test',
   SESSION_COOKIE_SECRET: 'a'.repeat(64),
   ALLOWED_ORIGIN: 'https://niv.schendel.me',
-  COOKIE_DOMAIN: 'chat.niv.schendel.me',
+  COOKIE_DOMAIN: 'chat.schendel.me',
   RATE_LIMIT_PER_HOUR: '10',
   MAX_INPUT_CHARS: '500',
   MAX_OUTPUT_TOKENS: '400',
@@ -22,7 +22,7 @@ function makeKv() {
 }
 
 function makeRequest(body: unknown, opts: Partial<RequestInit> = {}): Request {
-  return new Request('https://chat.niv.schendel.me/', {
+  return new Request('https://chat.schendel.me/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ function makeRequest(body: unknown, opts: Partial<RequestInit> = {}): Request {
 
 describe('worker fetch handler', () => {
   it('OPTIONS returns 204 with CORS', async () => {
-    const req = new Request('https://chat.niv.schendel.me/', {
+    const req = new Request('https://chat.schendel.me/', {
       method: 'OPTIONS',
       headers: { Origin: 'https://niv.schendel.me' },
     });

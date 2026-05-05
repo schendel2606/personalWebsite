@@ -33,12 +33,12 @@ const FALLBACK_CONTACTS = {
 
 export default {
   async fetch(request: Request, env: Env, _ctx: ExecutionContext): Promise<Response> {
-    // 1. Apex redirect — schendel.me + www.schendel.me → niv.schendel.me (301).
+    // 1. Apex redirect: schendel.me + www.schendel.me to niv.schendel.me (301).
     //    Runs first so redirect traffic never touches the chat machinery.
     const redirect = handleApexRedirect(request);
     if (redirect) return redirect;
 
-    // 2. Chat API — everything else lands on chat.niv.schendel.me.
+    // 2. Chat API: everything else lands on chat.schendel.me.
     const allowedOrigin = env.ALLOWED_ORIGIN;
     const reqOrigin = request.headers.get('Origin');
 

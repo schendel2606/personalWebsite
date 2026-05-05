@@ -38,8 +38,8 @@ describe('handleApexRedirect', () => {
     }
   });
 
-  it('returns null for chat.niv.schendel.me (chat handler should run)', () => {
-    const req = new Request('https://chat.niv.schendel.me/');
+  it('returns null for chat.schendel.me (chat handler should run)', () => {
+    const req = new Request('https://chat.schendel.me/');
     expect(handleApexRedirect(req)).toBeNull();
   });
 
@@ -53,8 +53,8 @@ describe('handleApexRedirect', () => {
     expect(handleApexRedirect(req)).toBeNull();
   });
 
-  it('does NOT redirect subdomains other than www (e.g. agent, fpl, tasks)', () => {
-    for (const host of ['agent.schendel.me', 'fpl.schendel.me', 'tasks.schendel.me', 'learn.schendel.me']) {
+  it('does NOT redirect subdomains other than www (e.g. chat, agent, fpl, tasks)', () => {
+    for (const host of ['chat.schendel.me', 'agent.schendel.me', 'fpl.schendel.me', 'tasks.schendel.me', 'learn.schendel.me']) {
       const req = new Request(`https://${host}/`);
       expect(handleApexRedirect(req)).toBeNull();
     }

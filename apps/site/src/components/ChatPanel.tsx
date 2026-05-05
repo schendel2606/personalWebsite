@@ -3,7 +3,7 @@ import type { ChatMessage, ChatResponse, RateLimitResponse } from './chat-types'
 
 const STORAGE_KEY = 'niv-chat-history';
 const MAX_TURNS = 20;
-const WORKER_URL = import.meta.env.PUBLIC_CHAT_WORKER_URL ?? 'https://chat.niv.schendel.me/';
+const WORKER_URL = import.meta.env.PUBLIC_CHAT_WORKER_URL ?? 'https://chat.schendel.me/';
 
 const SUGGESTED_PROMPTS = [
   "What's his most interesting technical project?",
