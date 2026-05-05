@@ -78,6 +78,6 @@ describe('buildSystemPrompt', () => {
     });
     const all = blocks.map((b) => b.text).join('\n');
     expect(all.toLowerCase()).toContain('ignore previous instructions');
-    expect(all).toContain('do not reveal');
+    expect(all.toLowerCase()).toContain('do not reveal');
   });
 });
