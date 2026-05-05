@@ -9,3 +9,12 @@ dist/
 build/
 *.log
 .DS_Store
+
+# Build outputs
+**/dist/
+**/.wrangler/
+**/.astro/
+output/resumes/
+
+# Local secrets
+**/.dev.vars
