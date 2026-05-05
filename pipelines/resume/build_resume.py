@@ -12,6 +12,7 @@ Style rules (do not violate):
 from __future__ import annotations
 
 import os
+from pathlib import Path
 
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle
@@ -386,7 +387,7 @@ SOLUTIONS = {
 VARIANTS = [BACKEND, DATA, SOLUTIONS]
 
 # Update each session.
-BATCH_DIR = "C:/Users/Niv/nivWorkshop/resumeOpt/batches/2026-05-05"
+BATCH_DIR = str(Path(__file__).parent / "batches" / "2026-05-05")
 
 
 def main() -> None:
