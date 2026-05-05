@@ -1,0 +1,50 @@
+---
+import { loadFacts } from '../lib/content';
+const f = loadFacts();
+---
+<aside class="hero">
+  <h1 class="hero-name">{f.person.name}</h1>
+  <p class="hero-tagline">{f.positioning.headline}</p>
+  <p class="hero-about">
+    Three years shipping production C# / .NET APIs and SQL Server data layers.
+    Recently building sandboxed AI agents that auto-generate code inside closed
+    legacy systems. Completing a CS B.Sc. at HIT in evenings.
+  </p>
+  <ul class="hero-socials">
+    <li><a href={f.person.socials.linkedin} aria-label="LinkedIn">LinkedIn</a></li>
+    <li><a href={f.person.socials.github} aria-label="GitHub">GitHub</a></li>
+    <li><a href={`mailto:${f.person.email}`} aria-label="Email">{f.person.email}</a></li>
+  </ul>
+</aside>
+
+<style>
+  .hero {
+    padding: var(--space-xl) var(--space-lg);
+    max-width: 320px;
+  }
+  .hero-name {
+    font-family: var(--font-mono);
+    font-size: 28px;
+    margin-bottom: var(--space-xs);
+  }
+  .hero-tagline {
+    color: var(--fg-muted);
+    font-size: 14px;
+    margin-bottom: var(--space-lg);
+  }
+  .hero-about {
+    font-size: 14px;
+    line-height: 1.65;
+    margin-bottom: var(--space-lg);
+  }
+  .hero-socials {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  .hero-socials a {
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+</style>
