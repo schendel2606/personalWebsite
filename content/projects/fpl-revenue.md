@@ -22,6 +22,6 @@ FPL Revenue came from a very practical problem: I play Fantasy Premier League wi
 
 The product connects to the official FPL API and turns that data into a more useful layer for league managers and competitive players. It tracks league context, live points, financial rules, and projected outcomes, without replacing FPL as the source of truth.
 
-The feature I would highlight from v0.9 is live points. I use real-time match data to estimate scores before FPL finishes its official update, and I also sample top global players to approximate live rank movement. Once FPL publishes its final update, the app returns to the official data.
+One of the parts I find most interesting is the live points layer. I use real-time match data to estimate scores before FPL publishes its own update, and I sample top global players to approximate live rank movement. Once FPL publishes the official numbers, the app falls back to those as the source of truth.
 
 The result is a more premium FPL experience: not just "how many points did I get," but what those points mean for rank, league position, and potential money outcomes.

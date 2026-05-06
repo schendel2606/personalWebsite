@@ -2,14 +2,13 @@
 import type { Project } from '../lib/content';
 interface Props { project: Project; }
 const { project } = Astro.props;
-const visibleStack = project.stack.slice(0, 4);
-const overflow = project.stack.length - visibleStack.length;
+const COMPACT_STACK_COUNT = 4;
+const overflow = Math.max(0, project.stack.length - COMPACT_STACK_COUNT);
 const liveHost = project.links.live ? new URL(project.links.live).host : null;
+const stackToggleId = `stack-toggle-${project.id}`;
 ---
 <article class="project-card">
-  {/* Empty <details> drives an [open] sibling selector below. The card's
-      visible content lives outside <details> so it stays in the natural reading
-      order (title -> tagline -> stack -> body -> actions). */}
+  {/* Empty <details> drives an [open] sibling selector below for the body. */}
   <details class="card-toggle">
     <summary class="title-row">
       <h3 class="title">{project.title}</h3>
@@ -19,9 +18,22 @@ const liveHost = project.links.live ? new URL(project.links.live).host : null;
 
   <p class="tagline">{project.tagline}</p>
 
+  {/* Hidden checkbox + label pattern for the stack overflow toggle.
+      Zero JS, accessible (label is associated to the checkbox via for/id,
+      checkbox is keyboard-focusable). */}
+  <input type="checkbox" id={stackToggleId} class="stack-toggle" hidden />
   <ul class="stack" aria-label="Stack">
-    {visibleStack.map((s) => <li>{s}</li>)}
-    {overflow > 0 && <li class="overflow">+{overflow}</li>}
+    {project.stack.map((s, i) => (
+      <li class:list={['stack-tag', { 'stack-extra': i >= COMPACT_STACK_COUNT }]}>{s}</li>
+    ))}
+    {overflow > 0 && (
+      <li class="stack-control">
+        <label for={stackToggleId} class="overflow" aria-label={`Show ${overflow} more tags`}>
+          <span class="overflow-collapsed">+{overflow}</span>
+          <span class="overflow-expanded" aria-hidden="true">−</span>
+        </label>
+      </li>
+    )}
   </ul>
 
   <div class="body" set:html={project.body} />
@@ -65,11 +77,10 @@ const liveHost = project.links.live ? new URL(project.links.live).host : null;
   }
   .project-card:hover { border-color: var(--accent); }
 
-  /* Hide the default disclosure marker; we use our own chev. */
+  /* Title disclosure (body toggle). */
   .card-toggle { margin: 0; }
   .card-toggle > summary { list-style: none; }
   .card-toggle > summary::-webkit-details-marker { display: none; }
-
   .title-row {
     cursor: pointer;
     display: flex;
@@ -100,13 +111,15 @@ const liveHost = project.links.live ? new URL(project.links.live).host : null;
     margin: 0;
   }
 
+  /* Stack pills. */
   .stack {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
+    align-items: center;
   }
-  .stack li {
+  .stack-tag {
     font-family: var(--font-mono);
     font-size: 10px;
     padding: 2px 7px;
@@ -114,12 +127,35 @@ const liveHost = project.links.live ? new URL(project.links.live).host : null;
     border-radius: var(--radius-pill);
     color: var(--fg-muted);
   }
-  .stack li.overflow {
-    color: var(--accent);
-    border-color: rgba(94, 106, 210, 0.4);
-  }
+  .stack-extra { display: none; }
+  .stack-toggle:checked ~ .stack .stack-extra { display: inline-flex; }
 
-  /* Body: hidden by default, shown when sibling <details> is open. */
+  /* +N chip. Becomes "−" when expanded. */
+  .stack-control { list-style: none; }
+  .overflow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 2px 8px;
+    border: 1px solid rgba(94, 106, 210, 0.4);
+    border-radius: var(--radius-pill);
+    color: var(--accent);
+    background: transparent;
+    transition: background 120ms ease, color 120ms ease;
+    min-width: 26px;
+  }
+  .overflow:hover { background: rgba(94, 106, 210, 0.12); }
+  .overflow:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .stack-toggle:focus-visible + .stack .overflow { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .overflow-expanded { display: none; }
+  .stack-toggle:checked ~ .stack .overflow-collapsed { display: none; }
+  .stack-toggle:checked ~ .stack .overflow-expanded { display: inline; }
+
+  /* Body: hidden by default, shown when title <details> is open. */
   .body {
     display: none;
     font-size: 13px;
@@ -132,6 +168,7 @@ const liveHost = project.links.live ? new URL(project.links.live).host : null;
   .body :global(p) { margin-bottom: var(--space-sm); }
   .body :global(p:last-child) { margin-bottom: 0; }
 
+  /* Actions footer. */
   .actions {
     display: flex;
     gap: var(--space-sm);
