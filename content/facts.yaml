@@ -32,12 +32,12 @@ experience:
     start: 2024-03
     end: present
     bullets:
-      - "Built a custom AI agent and Skill toolkit running in sandboxed environments, auto-generating code for the closed B1UP/Boyum IT system"
+      - "Built custom AI agents, skills, plugins, and MCP tools that run in sandboxed environments and auto-generate code for the closed B1UP / Boyum IT legacy system, automating recurring engineering work"
       - "Architected configuration-driven backend engines for multi-tenant rollouts via declarative parameter tables and dynamic T-SQL generation; reduced new-customer deployment from ~1 day to under 1 hour"
-      - "Shipped production REST APIs in C# / .NET 8 / ASP.NET Core with input validation, structured logging (NLog), and Postman regression suites"
+      - "Owned solutions end to end across a broad technical surface (backend, T-SQL and DBA, on-premise-to-cloud integration, internal IT) in a small, project-driven org; coordinated in a matrixed structure, ramped fast on unfamiliar systems, across 6+ on-site engagements"
+      - "Shipped production REST APIs in C# / .NET / ASP.NET Core with input validation, structured logging (NLog), and Postman regression suites"
       - "Designed analytical SQL Server data models (fact tables, KPI logic, stored procedures, views) feeding Power BI dashboards consumed by finance and operations"
       - "Resolved high-volume database bottlenecks via execution plan analysis and targeted indexing; cut report runtimes and unblocked client month-end closes"
-      - "Delivered iteratively across 6+ on-site enterprise engagements; translated requirements to specs, ran UAT to production"
   - company: Inspiria LTD
     role: SAP Business One Implementer
     start: 2023-03
@@ -58,7 +58,7 @@ education:
     degree: B.Sc. in Computer Science
     start: 2024-11
     end: 2027
-    notes: Evening program while working full-time. Coursework completed; Data Structures, Object-Oriented Programming, Advanced Programming Workshop.
+    notes: "Core CS coursework: Data Structures and Algorithms, Object-Oriented Programming, Advanced Programming Workshop (C / C++)."
   - school: Revivim College
     degree: Industrial Engineering Technician Certificate
     start: 2018-09
@@ -66,12 +66,13 @@ education:
 
 skills:
   languages:
-    - C# (.NET 8)
+    - C# (.NET 8 / 10)
     - T-SQL
     - SQL
     - C / C++ (foundations)
     - Python
     - TypeScript
+    - Bash / PowerShell / Linux shell
   frameworks_backend:
     - ASP.NET Core Web API
     - Layered Architecture (Service / Repository)
@@ -84,10 +85,13 @@ skills:
     - SQL Views
     - Analytical Data Models (Fact tables, KPI logic)
     - Performance Tuning (Execution Plans, Indexing)
+    - SQL Server Administration (DBA)
     - ETL-style Data Loads
   ai:
     - AI Agent Development
-    - Skill / Tool-Use Pipelines
+    - Multi-Agent Orchestration
+    - Human + AI-Agent Systems
+    - Skill / Tool-Use & MCP Pipelines
     - Sandboxed Execution
     - Automated Code Generation
   integration:
@@ -95,6 +99,7 @@ skills:
     - SAP Service Layer
     - SAP Business One
     - B1UP (Boyum IT)
+    - On-Premise-to-Cloud Integration
     - Power BI
   tools:
     - Git
@@ -104,6 +109,6 @@ skills:
 
 achievements:
   - "Reduced new-customer deployment time from ~1 day to under 1 hour via multi-tenant configuration-driven engines"
-  - "Built and shipped a sandboxed AI agent + Skill toolkit that auto-generates code for a closed legacy system"
+  - "Built and shipped sandboxed AI agents, skills, and MCP tools that auto-generate code for a closed legacy system"
   - "Delivered across dozens of enterprise customers and 6+ on-site engagements"
-  - "Maintains full-time engineering work alongside an evening B.Sc. program"
+  - "Works AI-native: builds custom agents, skills, plugins, and MCP tooling as a reviewed, security-conscious accelerator, while keeping architecture and security ownership hands-on"

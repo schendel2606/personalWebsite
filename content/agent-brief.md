@@ -33,7 +33,7 @@ He can handle monotonous work when it exists, but his strongest value shows up w
 ## Section E: Conversation seeds
 
 - How does Niv handle bugs in production or complex legacy systems?
-- How does Niv balance being a full-time Solutions Engineer with being a Computer Science student?
+- How does Niv use custom AI agents, skills, and MCP tooling to accelerate his engineering work?
 - What does Niv's day-to-day work at Inspiria actually look like?
 - What is the most interesting technical problem Niv solved?
 - How does Niv work when there is no clean API, weak documentation, or a closed legacy system?
